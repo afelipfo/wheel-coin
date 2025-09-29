@@ -1,10 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { stripe, STRIPE_CONFIG } from "@/lib/stripe/config"
+import { getStripeInstance, STRIPE_CONFIG } from "@/lib/stripe/config"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripeInstance()
+
     const { planId, billingCycle, successUrl, cancelUrl } = await req.json()
 
     const cookieStore = cookies()
